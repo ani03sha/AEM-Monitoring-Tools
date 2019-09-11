@@ -83,6 +83,7 @@ public class ReplicationQueueMonitor implements Runnable {
 	@Deactivate
 	protected void deactivate(ReplicationQueueMonitoringConfig config) {
 		log.info("Scheduler is removed: {}", config.getSchedulerName());
+		removeScheduler(config);
 	}
 
 	private void removeScheduler(ReplicationQueueMonitoringConfig config) {
