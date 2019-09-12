@@ -43,7 +43,6 @@ public class ReplicationQueueMonitor implements Runnable {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private String agentName;
-	private boolean clearQueue;
 
 	@Reference
 	private Scheduler scheduler;
@@ -54,7 +53,6 @@ public class ReplicationQueueMonitor implements Runnable {
 	@Activate
 	protected void activate(ReplicationQueueMonitoringConfig config) {
 		agentName = config.getAgentName();
-		clearQueue = config.isClearQueue();
 	}
 
 	@Modified
@@ -115,17 +113,6 @@ public class ReplicationQueueMonitor implements Runnable {
 					} else {
 						log.error("Queue is NOT able to process items. Queue last checked: {}", LocalDateTime.now());
 						sendMessageToSlack();
-						if (clearQueue) {
-							log.info("Clearing queue automatically");
-							server.invoke(replicationAgent, "queueClear", new Object[] { null },
-									new String[] { String.class.getName() });
-							if ((Integer) server.getAttribute(replicationAgent, "QueueNumEntries") == 0) {
-								log.info("Queue cleared successfully");
-							} else {
-								log.error("Could not clear queue successfully");
-							}
-
-						}
 					}
 				}
 			}

@@ -29,13 +29,6 @@ public @interface ReplicationQueueMonitoringConfig {
 	public String getAgentName();
 	
 	@AttributeDefinition(
-			name = "Clear Queue",
-			description = "If true, then the queue will be cleared if stuck",
-			type = AttributeType.BOOLEAN
-		)
-	public boolean isClearQueue();
-	
-	@AttributeDefinition(
 			name = "Cron Expression",
 			description = "Cron expression to determine when this scheduler will run",
 			type = AttributeType.STRING
